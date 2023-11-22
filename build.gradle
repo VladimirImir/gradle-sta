@@ -8,3 +8,32 @@
 println "configuration phase"
 println "gradle id: ${gradle.hashCode()}"
 println "root: ${rootProject.hashCode()}, ${project.hashCode()}, ${gradle.rootProject.hashCode()}"
+
+// task = new DefaultTask
+// Вариант # 3 - Является предпочтительным.
+def map = [description: "Hello task", group: "dev"]
+/*task(map, "hello") {
+    println "configuration phase. Task hello"
+    println "task: $description, group: $group, actions: ${actions.size()}"
+}*/
+task hello(description: "Hello task", group: "dev", type: DefaultTask) {
+    println "configuration phase. Task hello"
+    println "task: $description, group: $group, actions: ${actions.size()}"
+
+    //description = "Hello task"
+    //group = "dev"
+}
+
+//tasks.findByName("hello").
+// Вариант # 1
+/*hello.description = "Hello task"
+hello.group = "dev"*/
+
+// Вариант # 2
+// hello.configure Closure
+/*hello {
+    println "configuration phase. Task hello"
+    description = "Hello task"
+    group = "dev"
+}*/
+
