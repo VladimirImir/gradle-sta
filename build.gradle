@@ -5,13 +5,13 @@
  * Learn more about Gradle by exploring our samples at https://docs.gradle.org/7.1.1/samples
  */
 
-println "configuration phase"
-println "gradle id: ${gradle.hashCode()}"
-println "root: ${rootProject.hashCode()}, ${project.hashCode()}, ${gradle.rootProject.hashCode()}"
+//println "configuration phase"
+//println "gradle id: ${gradle.hashCode()}"
+//println "root: ${rootProject.hashCode()}, ${project.hashCode()}, ${gradle.rootProject.hashCode()}"
 
 // task = new DefaultTask
 // Вариант # 3 - Является предпочтительным.
-def map = [description: "Hello task", group: "dev"]
+//def map = [description: "Hello task", group: "dev"]
 /*task(map, "hello") {
     println "configuration phase. Task hello"
     println "task: $description, group: $group, actions: ${actions.size()}"
@@ -36,6 +36,59 @@ task hello(description: "Hello task", group: "dev", type: DefaultTask) {
     //description = "Hello task"
     //group = "dev"
 }
+
+task first {
+    doLast {
+        println "Task 1"
+    }
+}
+task second {
+    doLast {
+        println "Task 2"
+    }
+}
+task third {
+    doLast {
+        println "Task 3"
+    }
+}
+task fourth {
+    doLast {
+        println "Task 4"
+    }
+}
+
+// 2 <--- 4
+
+/*fourth.dependsOn second
+second.dependsOn first
+second.finalizedBy third*/
+
+// 2
+// 1    4
+// 3
+fourth.dependsOn first
+fourth.dependsOn second
+fourth.dependsOn third
+
+first.mustRunAfter second
+//second.shouldRunAfter first
+
+gradle.taskGraph.whenReady { TaskExecutionGraph graph ->
+    println "----- Graph:"
+    graph.allTasks.each {
+        println "${it.name}"
+    }
+}
+
+
+
+
+
+
+
+
+
 
 //tasks.findByName("hello").
 // Вариант # 1
