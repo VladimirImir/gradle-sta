@@ -7,27 +7,33 @@ apply from: 'script.gradle'
 repositories {
     // ~/.gradle/caches --offline
     // ~/.m2/repository
-    mavenLocal()
+    /*mavenLocal()
     maven {
         name "nexus dev"
         url "https://nexus.dev/repository"
-    }
+    }*/
     mavenCentral()
 }
 
-sourceSets {
+dependencies {
+    //add('implementation', [group: "org.springframework", name: 'spring-webmvc', version: '5.3.9'])
+    //add('implementation', "org.springframework:spring-webmvc:5.3.9")
+    implementation "org.springframework:spring-webmvc:5.3.9"
+}
+
+/*sourceSets {
     main {
         java {
             //srcDir("$buildDir/generated-sources/querydsl")
         }
-        /*resources {
+        *//*resources {
 
-        }*/
+        }*//*
     }
     test {
 
     }
-}
+}*/
 
 // buildSrc ---  id 'custom'
 class CustomPlugin implements Plugin<Project> {
