@@ -1,6 +1,12 @@
+plugins {
+    id 'java'
+}
+
+
 apply from: 'script.gradle'
-apply plugin: CustomPlugin
+//apply plugin: CustomPlugin
 //apply plugin: 'custom'
+//apply plugin: 'java'
 
 // buildSrc ---  id 'custom'
 class CustomPlugin implements Plugin<Project> {
