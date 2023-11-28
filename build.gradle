@@ -2,20 +2,27 @@ plugins {
     id 'java'
 }
 
-
 apply from: 'script.gradle'
-//apply plugin: CustomPlugin
-//apply plugin: 'custom'
-//apply plugin: 'java'
+
+repositories {
+    // ~/.gradle/caches --offline
+    // ~/.m2/repository
+    mavenLocal()
+    maven {
+        name "nexus dev"
+        url "https://nexus.dev/repository"
+    }
+    mavenCentral()
+}
 
 sourceSets {
     main {
         java {
             //srcDir("$buildDir/generated-sources/querydsl")
         }
-        resources {
-            
-        }
+        /*resources {
+
+        }*/
     }
     test {
 
