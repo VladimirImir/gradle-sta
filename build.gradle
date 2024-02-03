@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'war'
 }
 
 apply from: 'script.gradle'
@@ -13,6 +14,11 @@ repositories {
         url "https://nexus.dev/repository"
     }*/
     mavenCentral()
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_16
+    targetCompatibility = JavaVersion.VERSION_16
 }
 
 configurations {
@@ -31,8 +37,9 @@ configurations {
 }
 
 dependencies {
+    compileOnly "jakarta.servlet:jakarta.servlet-api:5.0.0"
     // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies
-    compileOnly platform('org.springframework.boot:spring-boot-dependencies:2.5.3')
+    //compileOnly platform('org.springframework.boot:spring-boot-dependencies:2.5.3')
 
     //add('implementation', [group: "org.springframework", name: 'spring-webmvc', version: '5.3.9'])
     //add('implementation', "org.springframework:spring-webmvc:5.3.9")
@@ -66,6 +73,19 @@ task copyAllDependencies(type: Copy) {
 }
 
 jar.dependsOn copyAllDependencies
+
+war {
+    archiveName "dev.war"
+}
+
+task deployTomcat(type: Copy) {
+    from(war.archiveFile.get())
+    into("C:\\Users\\Mers\\Music\\work\\apache-tomcat-10.1.10\\webapps")
+}
+
+deployTomcat.dependsOn war
+assemble.dependsOn deployTomcat
+
 
 /*sourceSets {
     main {
