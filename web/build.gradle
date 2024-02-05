@@ -10,7 +10,11 @@ repositories {
 }
 
 dependencies {
-    testImplementation 'junit:junit:4.11'
+    implementation project(":service")
+    implementation project(":common:util")
+
+    compileOnly "jakarta.servlet:jakarta.servlet-api:5.0.0"
+
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 }
@@ -18,3 +22,15 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+war {
+    archiveName "dev.war"
+}
+
+task deployTomcat(type: Copy) {
+    from(war.archiveFile.get())
+    into("C:\\Users\\Mers\\Music\\work\\apache-tomcat-10.1.10\\webapps")
+}
+
+deployTomcat.dependsOn war
+assemble.dependsOn deployTomcat
