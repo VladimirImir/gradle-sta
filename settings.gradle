@@ -9,6 +9,14 @@
 
 rootProject.name = 'gradle-sta'
 
-println "init phase, settings file: ${toString()}"
+/*println "init phase, settings file: ${toString()}"
 println "gradle id: ${gradle.hashCode()}"
-println "dir: ${settings.settingsDir}"
+println "dir: ${settings.settingsDir}"*/
+
+include 'database'
+include 'service'
+include 'web'
+include 'common'
+include 'common:util'
+include 'common:core'
+
