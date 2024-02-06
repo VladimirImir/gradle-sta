@@ -8,19 +8,13 @@ buildscript {
     dependencies {
         // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
         classpath 'org.apache.commons:commons-lang3:3.12.0'
-
     }
-}
-
-plugins {
-    id 'java'
-    id 'war'
 }
 
 apply from: 'script.gradle'
 
 allprojects {
-    group StringUtils.capitalize("dev")
+    group StringUtils.capitalize("dmdev")
 
     repositories {
         mavenCentral()
@@ -28,7 +22,6 @@ allprojects {
 }
 
 subprojects {
-
 }
 
 repositories {
@@ -43,83 +36,8 @@ project(":database") {
     dependencies {
 
     }
-
 }
 
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_16
-    targetCompatibility = JavaVersion.VERSION_16
+wrapper {
+    gradleVersion "7.0.2"
 }
-
-configurations {
-
-    Configuration configurationImpl = getByName("implementation")
-    dev {
-        description = "dev configuration"
-    }
-    configurationImpl.extendsFrom(dev)
-
-    all {
-        resolutionStrategy {
-            //force ('org.springframework:spring-aop:5.3.9')
-        }
-    }
-}
-
-dependencies {
-    compileOnly "jakarta.servlet:jakarta.servlet-api:5.0.0"
-    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies
-    //compileOnly platform('org.springframework.boot:spring-boot-dependencies:2.5.3')
-
-    //add('implementation', [group: "org.springframework", name: 'spring-webmvc', version: '5.3.9'])
-    //add('implementation', "org.springframework:spring-webmvc:5.3.9")
-    implementation("org.springframework:spring-webmvc:5.3.9") {
-//        transitive(false)
-//        exclude(group: 'org.springframework', module: 'spring-aop')
-    }
-    implementation('org.springframework:spring-aop:5.3.8') {
-//        force(true)
-    }
-}
-
-configurations.runtimeClasspath.files.each { println it}
-
-jar {
-
-    def jars = configurations.runtimeClasspath.files.collect { "lib/$it.name" }
-
-    manifest {
-        attributes'Main-Class': 'com.dev.HelloWorld',
-                    'Class-Path': jars.join(' ')
-    }
-    //duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
-
-    //from (configurations.runtimeClasspath.files.collect {zipTree(it)})
-}
-
-task copyAllDependencies(type: Copy) {
-    from(configurations.runtimeClasspath.files)
-    into("$buildDir/libs/lib")
-}
-
-jar.dependsOn copyAllDependencies
-
-
-
-/*sourceSets {
-    main {
-        java {
-            //srcDir("$buildDir/generated-sources/querydsl")
-        }
-        *//*resources {
-
-        }*//*
-    }
-    test {
-
-    }
-}*/
-
-// buildSrc ---  id 'custom'
-
